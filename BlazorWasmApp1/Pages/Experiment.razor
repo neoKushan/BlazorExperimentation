@@ -1,0 +1,24 @@
+﻿@page "/experiment"
+
+<h1>Experiment</h1>
+
+<div class="form-group">
+    <label for="ExperimentalText">Text:</label>
+    <input type="text" class="form-control" @bind="textBoxValue" id="ExperimentalText" /> <br/>
+    <button class="btn btn-primary" @onclick="TextToUpper">To Upper!</button> <br />
+    <button class="btn btn-primary" @onclick="TextToLower">To Lower!</button> <br />
+</div>
+
+@code {
+    string textBoxValue = "Type me some text ";
+
+    void TextToUpper()
+    {
+        textBoxValue = textBoxValue.ToUpper();
+    }
+
+    void TextToLower()
+    {
+        textBoxValue = textBoxValue.ToLower();
+    }
+}
