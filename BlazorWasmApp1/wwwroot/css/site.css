@@ -16,6 +16,10 @@ app {
     align-items: center;
 }
 
+input.form-control {
+    max-width: 285px;
+}
+
 .main {
     flex: 1;
 }

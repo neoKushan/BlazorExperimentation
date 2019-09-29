@@ -1,24 +1,88 @@
 ﻿@page "/experiment"
 
-<h1>Experiment</h1>
+<h1 class="display-4">Experiment</h1>
 
-<div class="form-group">
-    <label for="ExperimentalText">Text:</label>
-    <input type="text" class="form-control" @bind="textBoxValue" id="ExperimentalText" /> <br/>
-    <button class="btn btn-primary" @onclick="TextToUpper">To Upper!</button> <br />
-    <button class="btn btn-light" @onclick="TextToLower">To Lower!</button> <br />
-</div>
+<EditForm Model="@Form">
+    <div class="form-group">
+        <label for="text">Text:</label>
+        <input id="text" type="text" class="form-control @TransformClass" @bind-value="Form.Text" placeholder="Enter some text" />
+    </div>
+    <div class="form-group">
+        <label>Current CSS classes on text box:</label>
+        <div>
+            <pre>form-control @TransformClass</pre>
+        </div>
+        <label>Current value of text box:</label>
+        <div>
+            <pre>@Form.Text</pre>
+        </div>
+    </div>
+
+    <div class="form-check">
+        <input id="use-class" type="checkbox" class="form-check-input" @bind-value="Form.UseCssClass" />
+        <label class="form-check-label" for="use-class">Use CSS class</label>
+    </div>
+
+    <div class="btn-group">
+        <button class="btn btn-primary text-uppercase" @onclick="TextToUpper">To Upper!</button>
+        <button class="btn btn-light text-lowercase" @onclick="TextToLower">To Lower!</button>
+    </div>
+</EditForm>
 
 @code {
-    string textBoxValue = "Type me some text ";
+    public TransformForm Form = new TransformForm
+    {
+        Text = "Type me some text"
+    };
+
+    public string TransformClass = string.Empty;
 
     void TextToUpper()
     {
-        textBoxValue = textBoxValue.ToUpper();
+        if (Form.UseCssClass)
+        {
+            SetTransformCase(true);
+        }
+        else
+        {
+            SetTransformCase(null);
+            Form.Text = Form.Text.ToUpper();
+        }
     }
 
     void TextToLower()
     {
-        textBoxValue = textBoxValue.ToLower();
+        if (Form.UseCssClass)
+        {
+            SetTransformCase(false);
+        }
+        else
+        {
+            SetTransformCase(null);
+            Form.Text = Form.Text.ToLower();
+        }
+    }
+
+    void SetTransformCase(bool? upper)
+    {
+        if (upper == true)
+        {
+            TransformClass = "text-uppercase";
+        }
+        else if (upper == false)
+        {
+            TransformClass = "text-lowercase";
+        }
+        else
+        {
+            TransformClass = string.Empty;
+        }
+    }
+
+    public class TransformForm
+    {
+        public string Text { get; set; }
+
+        public bool UseCssClass { get; set; }
     }
 }
